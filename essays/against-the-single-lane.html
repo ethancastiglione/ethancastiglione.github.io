@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Against the Single Lane — Ethan Castiglione</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400;1,8..60,500;1,8..60,600;1,8..60,700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fbf8f3; --text: #1a1a1a; --text-muted: #333; --link: #1a1a1a; --toggle-track: #e0e0e0; --toggle-thumb: #555; }
+    [data-theme="dark"] { --bg: #1a1a1a; --text: #f0f0f0; --text-muted: #d0d0d0; --link: #f0f0f0; --toggle-track: #444; --toggle-thumb: #ccc; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Serif 4', Georgia, serif; font-size: 1.125rem; line-height: 1.65; color: var(--text); background: var(--bg); margin: 0; padding: 0; min-height: 100vh; transition: background-color 0.25s ease, color 0.25s ease; }
+    .wrap { max-width: 42rem; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .site-title { font-size: 2.25rem; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+    .site-title a { color: var(--text); text-decoration: none; }
+    .site-title a:hover { text-decoration: underline; }
+    .toggle-wrap { display: flex; align-items: center; }
+    .toggle { position: relative; width: 44px; height: 24px; background: var(--toggle-track); border: none; border-radius: 12px; cursor: pointer; }
+    .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: var(--toggle-thumb); border-radius: 50%; transition: transform 0.2s ease; }
+    [data-theme="dark"] .toggle::after { transform: translateX(20px); }
+    .back-link { margin-bottom: 2rem; }
+    .back-link a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+    .essay-title { font-size: 1.75rem; font-weight: 700; margin: 0 0 1.5rem; color: var(--text); letter-spacing: -0.01em; }
+    .essay p { margin: 0 0 1rem; }
+    .essay p:last-child { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="site-title"><a href="../index.html">Ethan Castiglione</a></h1>
+      <div class="toggle-wrap">
+        <button type="button" class="toggle" id="toggle" aria-label="Toggle dark mode" aria-pressed="false"></button>
+      </div>
+    </header>
+    <p class="back-link"><a href="../index.html">← Back</a></p>
+    <article class="essay">
+      <h2 class="essay-title">Against the Single Lane</h2>
+      <p>Somewhere along the way we got sold this idea that you pick one thing and you do it forever. You're a writer or you're an engineer. You're creative or you're analytical. You run or you lift. Pick a lane.</p>
+      <p>I've never bought it. The most alive I've ever felt is at the intersections — where a physics problem feels like a poem, where leading a team feels like choreography, where a long run becomes a moving meditation.</p>
+      <p>This isn't about being a generalist. Generalists skim surfaces. This is about going deep in multiple directions and letting those depths talk to each other. The best code I've ever written came after a morning of reading Mary Oliver. The best policy work I've done was informed by systems thinking from physics.</p>
+      <p>People will tell you to focus. They mean well. But focus doesn't have to mean narrow. You can focus intensely on the practice of being someone who refuses to be just one thing.</p>
+      <p>The world rewards specialists. But the world is changed by people who don't fit in a single box. Find your cracks. Break them open. Live in the spaces nobody thought to look.</p>
+    </article>
+  </div>
+  <script>
+    (function() {
+      var t = document.getElementById('toggle'), r = document.documentElement;
+      function get() { try { return localStorage.getItem('theme'); } catch (e) { return null; } }
+      function set(v) { try { if (v) localStorage.setItem('theme', v); else localStorage.removeItem('theme'); } catch (e) {} }
+      function apply(theme) {
+        if (theme === 'dark') { r.setAttribute('data-theme', 'dark'); t.setAttribute('aria-pressed', 'true'); }
+        else { r.removeAttribute('data-theme'); t.setAttribute('aria-pressed', 'false'); }
+      }
+      if (get() === 'dark') apply('dark'); else apply('light');
+      t.addEventListener('click', function() {
+        var isDark = r.getAttribute('data-theme') === 'dark';
+        apply(isDark ? 'light' : 'dark'); set(isDark ? null : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>

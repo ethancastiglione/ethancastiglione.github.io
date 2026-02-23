@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethan Castiglione</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400;1,8..60,500;1,8..60,600;1,8..60,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbf8f3;
+      --text: #1a1a1a;
+      --text-muted: #333;
+      --link: #1a1a1a;
+      --toggle-track: #e0e0e0;
+      --toggle-thumb: #555;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #f0f0f0;
+      --text-muted: #d0d0d0;
+      --link: #f0f0f0;
+      --toggle-track: #444;
+      --toggle-thumb: #ccc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+      font-size: 1.125rem;
+      line-height: 1.65;
+      color: var(--text);
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .wrap {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .site-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .site-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .site-title a:hover {
+      text-decoration: underline;
+    }
+
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+    }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--toggle-track);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: var(--toggle-thumb);
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+
+    [data-theme="dark"] .toggle::after {
+      transform: translateX(20px);
+    }
+
+    .intro {
+      margin-bottom: 2.5rem;
+    }
+
+    .intro .quote {
+      font-size: 1.125rem;
+      font-weight: 400;
+      margin: 0 0 1rem;
+      color: var(--text);
+    }
+
+    .intro .bio {
+      margin: 0;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .intro .bio a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .intro .bio a:hover {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    section:last-of-type {
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.5rem;
+      list-style-type: disc;
+    }
+
+    li {
+      margin-bottom: 0.35rem;
+    }
+
+    [data-theme="dark"] ul {
+      list-style-color: var(--text-muted);
+    }
+
+    section ul a {
+      color: var(--link);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    section ul a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    .human-art ul {
+      list-style-type: disc;
+    }
+
+    .human-art li {
+      margin-bottom: 0.5rem;
+    }
+
+    .human-art em {
+      font-style: italic;
+    }
+
+    .footer-rule {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.12);
+    }
+
+    [data-theme="dark"] .footer-rule {
+      border-top-color: rgba(255,255,255,0.15);
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .social-icons a {
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease;
+    }
+
+    .social-icons a:hover {
+      opacity: 0.7;
+    }
+
+    .social-icons svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .footer-location {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="site-title"><a href="index.html">Ethan Castiglione</a></h1>
+      <div class="toggle-wrap">
+        <button type="button" class="toggle" id="toggle" aria-label="Toggle dark mode" aria-pressed="false"></button>
+      </div>
+    </header>
+
+    <div class="intro">
+      <p class="quote">The future is not something you find. It is something you build.</p>
+      <p class="bio">I'm currently building for humans <a href="https://partnersf.com" target="_blank" rel="noopener noreferrer">@PartnerSF</a> & <a href="https://partnrx.com" target="_blank" rel="noopener noreferrer">@PartnrX</a>. I was previously <a href="https://berkeley.edu" target="_blank" rel="noopener noreferrer">@Berkeley</a>, <a href="https://pelosi.house.gov" target="_blank" rel="noopener noreferrer">@Pelosi</a>, <a href="https://cpuc.ca.gov" target="_blank" rel="noopener noreferrer">@CPUC</a>, <a href="https://ucsf.edu" target="_blank" rel="noopener noreferrer">@UCSF</a>. Focused on AI policy, governance, and research.</p>
+    </div>
+
+    <section aria-labelledby="short-thoughts">
+      <h2 id="short-thoughts">Short thoughts</h2>
+      <ul>
+        <li><a href="essays/against-the-single-lane.html">Against the Single Lane</a></li>
+        <li><a href="essays/build-before-youre-ready.html">Build Before You're Ready</a></li>
+        <li><a href="essays/the-practice-of-showing-up.html">The Practice of Showing Up</a></li>
+      </ul>
+    </section>
+
+    <section class="human-art" aria-labelledby="human-art">
+      <h2 id="human-art">Human art that has shaped me</h2>
+      <ul>
+        <li>"The Road Not Taken" by Robert Frost</li>
+        <li><em>Determined</em> by Robert Sapolsky</li>
+        <li>The works of Asher B. Durand</li>
+        <li>The works of Max Richter</li>
+        <li><em>Arrival</em>, dir. Denis Villeneuve</li>
+        <li>"Soul I (Avow)" by Sebastian Plano</li>
+        <li>"Be The Ocean" by Michael F. DuBois</li>
+        <li>"Wild Geese" by Mary Oliver</li>
+        <li><em>God's Own Country</em>, dir. Francis Lee</li>
+        <li><em>The Odyssey</em>, dir. Vincent Haycock (Florence + the Machine)</li>
+      </ul>
+    </section>
+
+    <hr class="footer-rule" aria-hidden="true">
+    <footer class="footer">
+      <nav class="social-icons" aria-label="Social links">
+        <a href="https://instagram.com/ethancastiglione" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://x.com/ethancastiglione" target="_blank" rel="noopener noreferrer" aria-label="X">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/ethancastiglione" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://medium.com/@ethancastiglione" target="_blank" rel="noopener noreferrer" aria-label="Medium">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+        </a>
+        <a href="mailto:ethancastiglione@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+      </nav>
+      <span class="footer-location">San Francisco, California</span>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      var toggle = document.getElementById('toggle');
+      var root = document.documentElement;
+
+      function getStored() {
+        try {
+          return localStorage.getItem('theme');
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function setStored(value) {
+        try {
+          if (value) localStorage.setItem('theme', value);
+          else localStorage.removeItem('theme');
+        } catch (e) {}
+      }
+
+      function apply(theme) {
+        if (theme === 'dark') {
+          root.setAttribute('data-theme', 'dark');
+          toggle.setAttribute('aria-pressed', 'true');
+        } else {
+          root.removeAttribute('data-theme');
+          toggle.setAttribute('aria-pressed', 'false');
+        }
+      }
+
+      function init() {
+        var stored = getStored();
+        if (stored === 'dark') {
+          apply('dark');
+        } else {
+          apply('light');
+        }
+      }
+
+      toggle.addEventListener('click', function() {
+        var isDark = root.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          apply('light');
+          setStored(null);
+        } else {
+          apply('dark');
+          setStored('dark');
+        }
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>

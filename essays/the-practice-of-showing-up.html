@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Practice of Showing Up — Ethan Castiglione</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400;1,8..60,500;1,8..60,600;1,8..60,700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fbf8f3; --text: #1a1a1a; --text-muted: #333; --link: #1a1a1a; --toggle-track: #e0e0e0; --toggle-thumb: #555; }
+    [data-theme="dark"] { --bg: #1a1a1a; --text: #f0f0f0; --text-muted: #d0d0d0; --link: #f0f0f0; --toggle-track: #444; --toggle-thumb: #ccc; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Serif 4', Georgia, serif; font-size: 1.125rem; line-height: 1.65; color: var(--text); background: var(--bg); margin: 0; padding: 0; min-height: 100vh; transition: background-color 0.25s ease, color 0.25s ease; }
+    .wrap { max-width: 42rem; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .site-title { font-size: 2.25rem; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+    .site-title a { color: var(--text); text-decoration: none; }
+    .site-title a:hover { text-decoration: underline; }
+    .toggle-wrap { display: flex; align-items: center; }
+    .toggle { position: relative; width: 44px; height: 24px; background: var(--toggle-track); border: none; border-radius: 12px; cursor: pointer; }
+    .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: var(--toggle-thumb); border-radius: 50%; transition: transform 0.2s ease; }
+    [data-theme="dark"] .toggle::after { transform: translateX(20px); }
+    .back-link { margin-bottom: 2rem; }
+    .back-link a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+    .essay-title { font-size: 1.75rem; font-weight: 700; margin: 0 0 1.5rem; color: var(--text); letter-spacing: -0.01em; }
+    .essay p { margin: 0 0 1rem; }
+    .essay p:last-child { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="site-title"><a href="../index.html">Ethan Castiglione</a></h1>
+      <div class="toggle-wrap">
+        <button type="button" class="toggle" id="toggle" aria-label="Toggle dark mode" aria-pressed="false"></button>
+      </div>
+    </header>
+    <p class="back-link"><a href="../index.html">← Back</a></p>
+    <article class="essay">
+      <h2 class="essay-title">The Practice of Showing Up</h2>
+      <p>Most of the work isn't the work. It's showing up. Showing up when you don't feel like it. Showing up when the outcome isn't clear. Showing up when nobody's watching and the only reward is the practice itself.</p>
+      <p>Consistency isn't about being perfect. It's about being present. It's about choosing to show up again tomorrow even when today didn't go as planned. The people who get somewhere aren't the ones with the best ideas — they're the ones who keep showing up for the idea, day after day.</p>
+      <p>So show up. For the run, the page, the conversation, the build. The practice of showing up is the practice of becoming.</p>
+    </article>
+  </div>
+  <script>
+    (function() {
+      var t = document.getElementById('toggle'), r = document.documentElement;
+      function get() { try { return localStorage.getItem('theme'); } catch (e) { return null; } }
+      function set(v) { try { if (v) localStorage.setItem('theme', v); else localStorage.removeItem('theme'); } catch (e) {} }
+      function apply(theme) {
+        if (theme === 'dark') { r.setAttribute('data-theme', 'dark'); t.setAttribute('aria-pressed', 'true'); }
+        else { r.removeAttribute('data-theme'); t.setAttribute('aria-pressed', 'false'); }
+      }
+      if (get() === 'dark') apply('dark'); else apply('light');
+      t.addEventListener('click', function() {
+        var isDark = r.getAttribute('data-theme') === 'dark';
+        apply(isDark ? 'light' : 'dark'); set(isDark ? null : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>
