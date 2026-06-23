@@ -90,7 +90,11 @@
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .toggle:active {
+      transform: scale(0.94);
     }
 
     .toggle::after {
@@ -129,11 +133,15 @@
     .intro .bio a {
       color: inherit;
       text-decoration: none;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1.5px;
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      transition: background-size 0.25s ease;
     }
 
     .intro .bio a:hover {
-      text-decoration: underline;
-      text-underline-offset: 2px;
+      background-size: 100% 1.5px;
     }
 
     section {
@@ -219,11 +227,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .social-icons a:hover {
       opacity: 0.7;
+      transform: translateY(-2px);
     }
 
     .social-icons svg {
@@ -235,6 +244,26 @@
     .footer-location {
       font-size: 0.9375rem;
       color: var(--text-muted);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    .wrap > * {
+      animation: fadeUp 0.45s ease both;
+    }
+
+    .wrap > *:nth-child(1) { animation-delay: 0s;    }
+    .wrap > *:nth-child(2) { animation-delay: 0.08s; }
+    .wrap > *:nth-child(3) { animation-delay: 0.16s; }
+    .wrap > *:nth-child(4) { animation-delay: 0.24s; }
+    .wrap > *:nth-child(5) { animation-delay: 0.28s; }
+    .wrap > *:nth-child(6) { animation-delay: 0.32s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wrap > * { animation: none; }
     }
   </style>
 </head>
