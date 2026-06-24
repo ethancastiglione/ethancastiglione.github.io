@@ -4,10 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ethan Castiglione</title>
+  <script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400;1,8..60,500;1,8..60,600;1,8..60,700&display=swap" rel="stylesheet">
   <style>
+    @view-transition {
+      navigation: auto;
+    }
+
     :root {
       --bg: #fbf8f3;
       --text: #1a1a1a;
@@ -24,6 +29,20 @@
       --link: #f0f0f0;
       --toggle-track: #444;
       --toggle-thumb: #ccc;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #1a1a1a;
+        --text: #f0f0f0;
+        --text-muted: #d0d0d0;
+        --link: #f0f0f0;
+        --toggle-track: #444;
+        --toggle-thumb: #ccc;
+      }
+      :root:not([data-theme="light"]) .toggle::after {
+        transform: translateX(20px);
+      }
     }
 
     * {
@@ -140,11 +159,12 @@
       background-size: 0% 1.5px;
       background-repeat: no-repeat;
       background-position: 0 100%;
-      transition: background-size 0.25s ease;
+      transition: background-size 0.15s ease;
     }
 
     .intro .bio a:hover {
       background-size: 100% 1.5px;
+      transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     section {
@@ -184,11 +204,12 @@
       background-size: 0% 1.5px;
       background-repeat: no-repeat;
       background-position: 0 100%;
-      transition: background-size 0.25s ease;
+      transition: background-size 0.15s ease;
     }
 
     section ul a:hover {
       background-size: 100% 1.5px;
+      transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .human-art ul {
@@ -286,7 +307,7 @@
 
     <div class="intro">
       <p class="quote">The future is not something you find. It is something you build.</p>
-      <p class="bio">I'm currently building for humans <a href="https://www.partnersf.com" target="_blank" rel="noopener noreferrer">@PartnerSF</a> & <a href="https://sfgil.com" target="_blank" rel="noopener noreferrer">@SFGIL</a>. I was previously <a href="https://berkeley.edu" target="_blank" rel="noopener noreferrer">@Berkeley</a>, <a href="https://pelosi.house.gov" target="_blank" rel="noopener noreferrer">@Pelosi</a>, <a href="https://cpuc.ca.gov" target="_blank" rel="noopener noreferrer">@CPUC</a>, <a href="https://ucsf.edu" target="_blank" rel="noopener noreferrer">@UCSF</a>. Focused on AI policy, governance, and research.</p>
+      <p class="bio">I'm currently building for humans <a href="https://www.partnersf.com" target="_blank" rel="noopener noreferrer">@PartnerSF</a> &amp; <a href="https://sfgil.com" target="_blank" rel="noopener noreferrer">@SFGIL</a>. I was previously <a href="https://berkeley.edu" target="_blank" rel="noopener noreferrer">@Berkeley</a>, <a href="https://pelosi.house.gov" target="_blank" rel="noopener noreferrer">@Pelosi</a>, <a href="https://cpuc.ca.gov" target="_blank" rel="noopener noreferrer">@CPUC</a>, <a href="https://ucsf.edu" target="_blank" rel="noopener noreferrer">@UCSF</a>. Focused on AI policy, governance, and research.</p>
     </div>
 
     <section aria-labelledby="short-thoughts">
@@ -346,11 +367,7 @@
       var root = document.documentElement;
 
       function getStored() {
-        try {
-          return localStorage.getItem('theme');
-        } catch (e) {
-          return null;
-        }
+        try { return localStorage.getItem('theme'); } catch (e) { return null; }
       }
 
       function setStored(value) {
@@ -360,44 +377,35 @@
         } catch (e) {}
       }
 
-      function apply(theme) {
-        if (theme === 'dark') {
-          root.setAttribute('data-theme', 'dark');
-          toggle.setAttribute('aria-pressed', 'true');
-        } else {
-          root.removeAttribute('data-theme');
-          toggle.setAttribute('aria-pressed', 'false');
-        }
+      function effectiveDark() {
+        var attr = root.getAttribute('data-theme');
+        if (attr === 'dark') return true;
+        if (attr === 'light') return false;
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       }
 
       function init() {
-        var stored = getStored();
-        if (stored === 'dark') {
-          apply('dark');
-        } else {
-          apply('light');
-        }
+        toggle.setAttribute('aria-pressed', effectiveDark() ? 'true' : 'false');
       }
 
       toggle.addEventListener('click', function() {
-        var isDark = root.getAttribute('data-theme') === 'dark';
-        if (isDark) {
-          apply('light');
-          setStored(null);
+        if (effectiveDark()) {
+          root.setAttribute('data-theme', 'light');
+          setStored('light');
+          toggle.setAttribute('aria-pressed', 'false');
         } else {
-          apply('dark');
+          root.setAttribute('data-theme', 'dark');
           setStored('dark');
+          toggle.setAttribute('aria-pressed', 'true');
         }
       });
 
       init();
 
       // Clean up will-change after entry animations complete
-      var animated = document.querySelectorAll('.wrap > *');
-      var maxDelay = 310 + 550; // last delay (ms) + duration (ms)
       setTimeout(function() {
-        animated.forEach(function(el) { el.style.willChange = 'auto'; });
-      }, maxDelay);
+        document.querySelectorAll('.wrap > *').forEach(function(el) { el.style.willChange = 'auto'; });
+      }, 860);
     })();
   </script>
 </body>
