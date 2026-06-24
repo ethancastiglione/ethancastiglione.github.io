@@ -100,7 +100,21 @@
     .wrap > *:nth-child(2) { animation-delay: 0.07s; }
     .wrap > *:nth-child(3) { animation-delay: 0.14s; }
     @media (prefers-reduced-motion: reduce) { .wrap > * { animation: none; } }
+
+    @view-transition { navigation: auto; }
+    .site-title { view-transition-name: site-title; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      ::view-transition-old(root) { animation: 160ms ease-out both vt-fade-out; }
+      ::view-transition-new(root) { animation: 280ms cubic-bezier(0.16, 1, 0.3, 1) both vt-fade-in; }
+      ::view-transition-old(site-title), ::view-transition-new(site-title) { animation-duration: 300ms; }
+      @keyframes vt-fade-out { to { opacity: 0; } }
+      @keyframes vt-fade-in { from { opacity: 0; transform: translateY(6px); } }
+    }
+
+    :focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
   </style>
+  <script>!function(){try{var s=localStorage.getItem('theme'),d=s==='dark'||(!s&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.setAttribute('data-theme','dark')}catch(e){}}();</script>
 </head>
 <body>
   <div class="progress-bar" id="progress" aria-hidden="true"></div>
@@ -127,14 +141,21 @@
       function get() { try { return localStorage.getItem('theme'); } catch (e) { return null; } }
       function set(v) { try { if (v) localStorage.setItem('theme', v); else localStorage.removeItem('theme'); } catch (e) {} }
       function apply(theme) {
-        if (theme === 'dark') { r.setAttribute('data-theme', 'dark'); t.setAttribute('aria-pressed', 'true'); }
-        else { r.removeAttribute('data-theme'); t.setAttribute('aria-pressed', 'false'); }
+        if (theme === 'dark') { r.setAttribute('data-theme', 'dark'); t.setAttribute('aria-pressed', 'true'); t.setAttribute('aria-label', 'Switch to light mode'); }
+        else { r.removeAttribute('data-theme'); t.setAttribute('aria-pressed', 'false'); t.setAttribute('aria-label', 'Switch to dark mode'); }
       }
-      if (get() === 'dark') apply('dark'); else apply('light');
+      var stored = get();
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      apply(stored === 'dark' || (!stored && prefersDark) ? 'dark' : 'light');
       t.addEventListener('click', function() {
         var isDark = r.getAttribute('data-theme') === 'dark';
         apply(isDark ? 'light' : 'dark'); set(isDark ? null : 'dark');
       });
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          if (!get()) apply(e.matches ? 'dark' : 'light');
+        });
+      }
 
       // Reading progress bar
       var bar = document.getElementById('progress');

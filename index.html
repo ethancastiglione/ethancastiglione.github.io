@@ -273,7 +273,45 @@
     @media (prefers-reduced-motion: reduce) {
       .wrap > * { animation: none; }
     }
+
+    /* Cross-document view transitions (Chrome 126+, progressive enhancement) */
+    @view-transition { navigation: auto; }
+
+    /* Shared-element transition: site title morphs between pages */
+    .site-title { view-transition-name: site-title; }
+
+    /* Custom view-transition animation — matches existing fadeUp feel */
+    @media (prefers-reduced-motion: no-preference) {
+      ::view-transition-old(root) {
+        animation: 160ms ease-out both vt-fade-out;
+      }
+      ::view-transition-new(root) {
+        animation: 280ms cubic-bezier(0.16, 1, 0.3, 1) both vt-fade-in;
+      }
+      ::view-transition-old(site-title),
+      ::view-transition-new(site-title) {
+        animation-duration: 300ms;
+      }
+      @keyframes vt-fade-out { to { opacity: 0; } }
+      @keyframes vt-fade-in { from { opacity: 0; transform: translateY(6px); } }
+    }
+
+    /* Suppress transform hover on touch-only devices (no sticky hover) */
+    @media (hover: none) {
+      .social-icons a:hover {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Visible focus ring for keyboard navigation */
+    :focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
   </style>
+  <script>/* Theme detection before first paint — eliminates flash of wrong theme */!function(){try{var s=localStorage.getItem('theme'),d=s==='dark'||(!s&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.setAttribute('data-theme','dark')}catch(e){}}();</script>
 </head>
 <body>
   <div class="wrap">
@@ -364,15 +402,18 @@
         if (theme === 'dark') {
           root.setAttribute('data-theme', 'dark');
           toggle.setAttribute('aria-pressed', 'true');
+          toggle.setAttribute('aria-label', 'Switch to light mode');
         } else {
           root.removeAttribute('data-theme');
           toggle.setAttribute('aria-pressed', 'false');
+          toggle.setAttribute('aria-label', 'Switch to dark mode');
         }
       }
 
       function init() {
         var stored = getStored();
-        if (stored === 'dark') {
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
           apply('dark');
         } else {
           apply('light');
@@ -391,6 +432,13 @@
       });
 
       init();
+
+      // Follow OS theme changes in real time (only when no explicit user preference)
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          if (!getStored()) apply(e.matches ? 'dark' : 'light');
+        });
+      }
 
       // Clean up will-change after entry animations complete
       var animated = document.querySelectorAll('.wrap > *');
